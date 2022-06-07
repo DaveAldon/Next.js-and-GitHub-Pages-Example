@@ -56,7 +56,45 @@ Create a **workflows** folder inside your **.github** folder, and inside this ne
 
 <img src="./readme_assets/folder.png" width="50%" />
 
-Inside this file will be the commands that GitHub actions will run. You can [copy my example here](https://github.com/DaveAldon/Next.js-and-GitHub-Pages-Example/blob/main/.github/workflows/node.js.yml). Once you commit these files, the actions tab for your repository will show your action running. Actions are triggered automatically after any commits by default.
+Inside this file will be the commands that GitHub actions will run. You can [copy my example here](https://github.com/DaveAldon/Next.js-and-GitHub-Pages-Example/blob/main/.github/workflows/node.js.yml) or below:
+
+```yml
+# This workflow will do a clean install of node dependencies, build the source code and run tests across different versions of node
+# For more information see: https://help.github.com/actions/language-and-framework-guides/using-nodejs-with-github-actions
+
+name: GitHub Pages deploy
+
+on:
+  push:
+    branches: [main]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout 🛎️
+        uses: actions/checkout@v2.3.1
+      - name: Use Node.js 14.x
+        uses: actions/setup-node@v1
+        with:
+          node-version: '14.x'
+
+      - name: Installing my packages
+        run: npm ci
+
+      - name: Build my App
+        run: npm run build && npm run export && touch ./out/.nojekyll
+
+      - name: Deploy 🚀
+        uses: JamesIves/github-pages-deploy-action@v4.3.3
+        with:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          BRANCH: public # The branch the action will deploy to
+          FOLDER: out # The folder the action will deploy to
+```
+
+Once you commit these files, the actions tab for your repository will show your action running. Actions are triggered automatically after any commits by default.
 
 <img src="./readme_assets/action.png" width="75%" />
 
