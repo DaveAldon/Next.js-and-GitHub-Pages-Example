@@ -1,6 +1,6 @@
 ## Deploying Next.js to GitHub Pages
 
-[![Discord](https://img.shields.io/discord/844365328574054420.svg?label=&logo=discord&logoColor=ffffff&color=7389D8&labelColor=6A7EC2)](https://discord.gg/84eWHK26CU) [![typescript](https://img.shields.io/badge/made%20with-typescript-blue)](https://img.shields.io/badge/made%20with-typescript-blue)
+[![typescript](https://img.shields.io/badge/made%20with-typescript-blue)](https://img.shields.io/badge/made%20with-typescript-blue)
 
 <img src="./readme_assets/banner.png" width="100%" />
 
@@ -106,4 +106,21 @@ Congratulations! You’ve successfully deployed a Next.js web application to Git
 
 If you want to see this repository’s deployment in action, you can visit the website [here](https://davealdon.github.io/Next.js-and-GitHub-Pages-Example/).
 
-Want to talk about Next.js? I’d love to chat with you! You can meet me in the [official Bravo LT Discord Server](https://discord.gg/qt6WTfyZCd)!
+### Troubleshooting
+
+#### Fork problems
+
+If you're forking this repo and you're having problems getting the action to run, or your Github pages is only serving the readme instead of the generated website, make sure you're doing the following:
+
+1. When you create a fork, make sure to UNCHECK the **Copy the main branch only** checkbox. You need both branches out of the box
+2. Make sure that the `public` branch is not a clone of `main`, but instead contain the build output of the Github action
+
+#### Issues starting from scratch
+
+If you want to implement this workflow on your own without forking, and you want to know how to setup the `public` branch so that it's not a clone of `main`, make sure you're doing the following:
+
+1. Create the `public` branch based on main, it's ok that it's a copy of this branch right now
+2. Turn Github pages on (if it was on before you create the branch, turn it off, re-create the `public` branch, and turn it on)
+3. Run the Github action via a commit trigger or manually
+
+The Github action requires Github pages to be on, which in turn requires the `public` branch. The Github action will overwrite everything in the `public` branch if it runs successfully.
