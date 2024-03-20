@@ -5,7 +5,7 @@ name: GitHub Pages deploy
 
 on:
   push:
-    branches: [main]
+    branches: [main, NextJS-v14.1.4]
 
 jobs:
   build:
