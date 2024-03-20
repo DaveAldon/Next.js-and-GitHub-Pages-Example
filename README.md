@@ -11,18 +11,13 @@ I’m going to share my lessons learned and what they ***don’t*** tell you abo
 #### Step 1: The Next.js project
 Follow the official Next.js [getting started guide](https://nextjs.org/docs/getting-started) up until the point where you can run the build and view the compiled website locally. Then change the following:
 
-1. Add this command to your **package.json** file:
-```json
-"export": "next export"
-```
-
-
-2. Change the **next.config.js** file to **next.config.mjs**, and replace everything inside with the following:
+1. Change the **next.config.js** file to **next.config.mjs**, and replace everything inside with the following:
 ```js
 /**
 * @type {import('next').NextConfig}
 */
 const nextConfig = {
+  output: "export",
   images: {
     loader: 'akamai',
     path: '',
@@ -35,8 +30,9 @@ export default nextConfig;
 
 The extension change is so that the compiler can understand exports, and the update we make inside the file solves a couple of problems:
 
-1. Next.js uses its own image optimization, which doesn’t play nicely with GitHub Pages by default. We change this to the **akamai** option which works properly. You can read more about this [here](https://nextjs.org/docs/basic-features/image-optimization)
-2. We need to define an **asset prefix** because GitHub uses Jekyll by default to build static pages, and Jekyll ignores all files prefixed with `_` which Next.js uses
+1. `output: "export"` tells Next.js to export a completely static website when the `npm run build` command is run. Github pages only serves static websites, so this is necessary. You can read more about this on the [Next.js static-export](https://nextjs.org/docs/pages/building-your-application/deploying/static-exports) documentation page
+2. Next.js uses its own image optimization, which doesn’t play nicely with GitHub Pages by default. We change this to the **akamai** option which works properly. You can read more about this [here](https://nextjs.org/docs/basic-features/image-optimization)
+3. We need to define an **asset prefix** because GitHub uses Jekyll by default to build static pages, and Jekyll ignores all files prefixed with `_` which this project's Next.js implementation uses
 
 #### Step 2: GitHub Repository Setup
 GitHub Pages is a great, free service that lets us publish static websites automatically and directly from our own repositories. I love using this service to get projects running in a “production” environment, which lets us get proof-of-concepts into the hands of users super fast.
@@ -75,16 +71,16 @@ jobs:
     steps:
       - name: Checkout 🛎️
         uses: actions/checkout@v2.3.1
-      - name: Use Node.js 16.x
+      - name: Use Node.js 18.x
         uses: actions/setup-node@v1
         with:
-          node-version: '16.x'
+          node-version: '18.x'
 
       - name: Installing my packages
         run: npm ci
 
       - name: Build my App
-        run: npm run build && npm run export && touch ./out/.nojekyll
+        run: npm run build && touch ./out/.nojekyll
 
       - name: Deploy 🚀
         uses: JamesIves/github-pages-deploy-action@v4.4.1
