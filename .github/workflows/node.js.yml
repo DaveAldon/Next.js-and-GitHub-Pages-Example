@@ -17,13 +17,13 @@ jobs:
       - name: Use Node.js 16.x
         uses: actions/setup-node@v1
         with:
-          node-version: '16.x'
+          node-version: "16.x"
 
       - name: Installing my packages
         run: npm ci
 
       - name: Build my App
-        run: npm run build && npm run export && touch ./out/.nojekyll
+        run: npm run build && touch ./out/.nojekyll
 
       - name: Deploy 🚀
         uses: JamesIves/github-pages-deploy-action@v4.4.1
