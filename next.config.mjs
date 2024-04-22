@@ -6,9 +6,8 @@ const nextConfig = {
   output: "export",
   images: {
     loader: "akamai",
-    path: "/Next.js-and-GitHub-Pages-Example/",
+    path: "",
   },
-  assetPrefix: "/Next.js-and-GitHub-Pages-Example",
 };
 
 export default nextConfig;
