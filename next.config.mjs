@@ -8,7 +8,7 @@ const nextConfig = {
     loader: "akamai",
     path: "",
   },
-  assetPrefix: "./",
+  assetPrefix: "/Next.js-and-GitHub-Pages-Example/",
 };
 
 export default nextConfig;
