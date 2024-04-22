@@ -70,11 +70,11 @@ jobs:
 
     steps:
       - name: Checkout 🛎️
-        uses: actions/checkout@v2.3.1
+        uses: actions/checkout@v4.1.3
       - name: Use Node.js 18.x
         uses: actions/setup-node@v1
         with:
-          node-version: '18.x'
+          node-version: "18.x"
 
       - name: Installing my packages
         run: npm ci
@@ -83,11 +83,11 @@ jobs:
         run: npm run build && touch ./out/.nojekyll
 
       - name: Deploy 🚀
-        uses: JamesIves/github-pages-deploy-action@v4.4.1
+        uses: JamesIves/github-pages-deploy-action@v4.6.0
         with:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          BRANCH: public # The branch the action will deploy to
-          FOLDER: out # The folder the action will deploy to
+          token: ${{ secrets.GITHUB_TOKEN }}
+          branch: public # The branch the action should deploy to.
+          folder: out # The folder the action should deploy to.
 ```
 
 Once you commit these files, the actions tab for your repository will show your action running. Actions are triggered automatically after any commits by default.
