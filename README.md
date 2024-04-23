@@ -19,10 +19,10 @@ Follow the official Next.js [getting started guide](https://nextjs.org/docs/gett
 const nextConfig = {
   output: "export",
   images: {
-    loader: 'akamai',
-    path: '',
+    loader: "akamai",
+    path: "",
   },
-  assetPrefix: './',
+  assetPrefix: "./",
 };
 
 export default nextConfig;
@@ -79,6 +79,9 @@ jobs:
       - name: Installing my packages
         run: npm ci
 
+      - name: Extract repository name
+        run: echo "BASE_PATH=/$(echo $GITHUB_REPOSITORY | cut -d '/' -f 2)" >> $GITHUB_ENV
+
       - name: Build my App
         run: npm run build && touch ./out/.nojekyll
 
@@ -101,6 +104,39 @@ Once your action has finished building, you can navigate to the URL GitHub creat
 Congratulations! You’ve successfully deployed a Next.js web application to GitHub Pages! If you’d like to see a full project, this repository contains the absolute minimum files needed to work.
 
 If you want to see this repository’s deployment in action, you can visit the website [here](https://davealdon.github.io/Next.js-and-GitHub-Pages-Example/).
+
+#### Step 4: Images
+
+If you're using images out of the public folder, and serving them with Nextjs's `<Image/>` component, they won't work out of the box with static site generation. This is because there's no automatic handling of path prefixes for images.
+
+Nextjs gives a way to automatically prepend various assets with your Github's repository name, such as for `.css` files, but not for images served out of the Nextjs image component. To work around this, the path needs to be prefixed manually. I prefer a simple method:
+
+1. Take a look inside the `utils` folder for the `prefix.ts` file:
+
+```ts
+const prefix = process.env.BASE_PATH || "";
+export { prefix };
+```
+
+This simply looks for an environment variable path prefix, and returns it. For any image assets, we can simple reference it like this:
+
+```tsx
+<Image
+  src={`${prefix}/vercel.svg`}
+  alt="Vercel Logo"
+  width={72}
+  height={16}
+/>
+```
+
+If you use my Github action script, the assignment of this environment variable is actually handled automatically:
+
+```yml
+- name: Extract repository name
+  run: echo "BASE_PATH=/$(echo $GITHUB_REPOSITORY | cut -d '/' -f 2)" >> $GITHUB_ENV
+```
+
+It pulls the repository's name out and applies it to the build, without the need for making your own `.env` file. This way everything should work automatically if you use the prefix utility.
 
 ### Troubleshooting
 
