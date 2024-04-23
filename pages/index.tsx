@@ -2,11 +2,8 @@ import type { NextPage } from "next";
 import Head from "next/head";
 import Image from "next/image";
 import styles from "../styles/Home.module.css";
-import getConfig from "next/config";
 
 const Home: NextPage = () => {
-  const { publicRuntimeConfig } = getConfig();
-
   return (
     <div className={styles.container}>
       <Head>
@@ -65,7 +62,7 @@ const Home: NextPage = () => {
           Powered by{" "}
           <span className={styles.logo}>
             <Image
-              src={`${publicRuntimeConfig.basePath}"/vercel.svg"`}
+              src={`${process.env.BASE_PATH}/vercel.svg`}
               alt="Vercel Logo"
               width={72}
               height={16}
