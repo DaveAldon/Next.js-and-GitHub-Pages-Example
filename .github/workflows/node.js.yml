@@ -23,12 +23,10 @@ jobs:
         run: npm ci
 
       - name: Extract repository name
-        run: echo "BASE_URL=$(echo $GITHUB_REPOSITORY | cut -d '/' -f 2)" >> $GITHUB_ENV
+        run: echo "BASE_PATH=$(echo $GITHUB_REPOSITORY | cut -d '/' -f 2)" >> $GITHUB_ENV
 
       - name: Build my App
         run: npm run build && touch ./out/.nojekyll
-        env:
-          BASE_URL: ${{ secrets.BASE_URL }}
 
       - name: Deploy 🚀
         uses: JamesIves/github-pages-deploy-action@v4.6.0
